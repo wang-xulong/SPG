@@ -1,8 +1,8 @@
 # dirs
 /.idea/
 **/__pycache__/
-outputs/*
-data/*
-
+outputs*
+data*
+wandb*
 # files
 !data/prep_tinyimagenet.py

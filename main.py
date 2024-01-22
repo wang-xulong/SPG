@@ -21,7 +21,7 @@ from utils import BColors, myprint as print, suggest_float, suggest_int
 
 
 import matplotlib.pyplot as plt
-
+import wandb
 
 
 def instance_appr(trial: Trial, cfg: DictConfig,
@@ -269,9 +269,8 @@ def main(cfg: DictConfig):
     plt.show()
 
 
-
-
-
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
+    wandb.init(project='cifar100_10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
+    wandb.finish()
