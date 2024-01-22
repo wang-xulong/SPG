@@ -21,7 +21,7 @@ optuna:
 
 nhid: 2048
 device: null
-epochs_max: 1
+epochs_max: 500
 patience_max: 5
 
 lr: 0.25
