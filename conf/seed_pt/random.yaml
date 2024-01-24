@@ -1,4 +1,4 @@
 # @package _global_
 seed_pt: 1
-n_trials: 25
+n_trials: 10
 psearch: false
