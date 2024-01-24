@@ -65,7 +65,8 @@ def _get_dataloaders(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
             transforms.Resize((inputsize[1], inputsize[2]), interpolation=InterpolationMode.BICUBIC),
             transforms.ToTensor(),
             transforms.Normalize(mean, std),
-            ])
+        ])
+
     # enddef
 
     batch_size = cfg.seq.batch_size
@@ -86,7 +87,8 @@ def _get_dataloaders(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
             dataset_test = datasets.CIFAR100(root=DIR_DATA, train=False, transform=trf, download=True)
         elif dataset_name in ['tinyimagenet_10', 'tinyimagenet_20']:
             trf = tf(inputsize, mean_3ch, std_3ch)
-            dataset_trainval = datasets.ImageFolder(root=os.path.join(DIR_DATA, 'tiny-imagenet-200', 'train'), transform=trf)
+            dataset_trainval = datasets.ImageFolder(root=os.path.join(DIR_DATA, 'tiny-imagenet-200', 'train'),
+                                                    transform=trf)
             dataset_test = datasets.ImageFolder(root=os.path.join(DIR_DATA, 'tiny-imagenet-200', 'test'), transform=trf)
         elif dataset_name in ['imagenet_100']:
             trf = tf(inputsize, mean_3ch, std_3ch)
@@ -222,9 +224,15 @@ def _get_dataloaders(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
 
         # dataset -> dataloader
         for idx_task in range(num_tasks):
-            dl_train = DataLoader(dict__idx_task__dataset[idx_task]['train'], batch_size=batch_size)
-            dl_val = DataLoader(dict__idx_task__dataset[idx_task]['val'], batch_size=batch_size)
-            dl_test = DataLoader(dict__idx_task__dataset[idx_task]['test'], batch_size=batch_size)
+            dl_train = DataLoader(dict__idx_task__dataset[idx_task]['train'], batch_size=batch_size
+                                  , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory
+                                  , prefetch_factor=cfg.prefetch_factor)
+            dl_val = DataLoader(dict__idx_task__dataset[idx_task]['val'], batch_size=batch_size
+                                , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory
+                                , prefetch_factor=cfg.prefetch_factor)
+            dl_test = DataLoader(dict__idx_task__dataset[idx_task]['test'], batch_size=batch_size,
+                                 num_workers=cfg.num_workers, pin_memory=cfg.pin_memory
+                                 , prefetch_factor=cfg.prefetch_factor)
 
             assert len(dl_train.dataset) == num_train_per_class * list__num_classes[idx_task]
             assert len(dl_val.dataset) == num_val_per_class * list__num_classes[idx_task]
@@ -238,7 +246,7 @@ def _get_dataloaders(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
                 'train': dl_train,
                 'val': dl_val,
                 'test': dl_test,
-                }
+            }
         # endfor
 
         num_tasks_offset += num_tasks
@@ -267,7 +275,7 @@ class Imagenet(Dataset):
         if train:
             data = {
                 'labels': [],
-                }
+            }
             for i in range(10):
                 filepath = os.path.join(root, 'train', f'train_data_batch_{i + 1}')
                 data_batch = self.unpickle(filepath)
@@ -297,6 +305,7 @@ class Imagenet(Dataset):
 
         # print(f'x.shape: {self.x.shape}')
         # print(f'y range: {np.min(self.y)}, {np.max(self.y)}')
+
     # enddef
 
     @staticmethod
@@ -306,6 +315,7 @@ class Imagenet(Dataset):
         # endwith
 
         return dict
+
     # enddef
 
     def __getitem__(self, idx: int) -> Tuple[Tensor, int]:
@@ -316,6 +326,7 @@ class Imagenet(Dataset):
         label = self.y[idx] - 1
 
         return image, label
+
     # enddef
 
     def __len__(self) -> int:
@@ -343,6 +354,7 @@ class FCelebA(Dataset):
 
         # load
         self.load()
+
     # enddef
 
     def __getitem__(self, idx: int) -> Tuple[int, Tensor, int]:
@@ -353,10 +365,12 @@ class FCelebA(Dataset):
         y = data['y']
 
         return idx_task, self.transforms(x), y
+
     # enddef
 
     def __len__(self) -> int:
         return len(self.list__data)
+
     # enddef
 
     def load(self):
@@ -389,6 +403,7 @@ class FCelebA(Dataset):
             self._read_raw()
             self.load()
         # endif
+
     # enddef
 
     def _read_raw(self):
@@ -442,6 +457,7 @@ class FEMNIST(Dataset):
 
         # load
         self.load()
+
     # enddef
 
     def __getitem__(self, idx: int) -> Tuple[int, Tensor, int]:
@@ -452,10 +468,12 @@ class FEMNIST(Dataset):
         y = data['y']
 
         return idx_task, self.transforms(x), y
+
     # enddef
 
     def __len__(self) -> int:
         return len(self.list__data)
+
     # enddef
 
     def load(self):
@@ -488,6 +506,7 @@ class FEMNIST(Dataset):
             self._read_raw()
             self.load()
         # endif
+
     # enddef
 
     def _read_raw(self):

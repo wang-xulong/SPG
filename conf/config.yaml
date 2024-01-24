@@ -27,3 +27,7 @@ patience_max: 5
 lr: 0.25
 lr_min: 1e-3
 lr_factor: 3
+
+num_workers: 18
+pin_memory: True
+prefetch_factor: 64*2
