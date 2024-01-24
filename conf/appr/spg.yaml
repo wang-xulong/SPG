@@ -9,14 +9,20 @@ tuned:
   cifar100_20:
 #    drop1: 0.49562963280365513
 #    drop2: 0.4850322667156278
-    drop1: 0.32105530284219613
-    drop2: 0.4657005075999716
-    r:
-      low: 0.01
-      high: 0.2
-    alpha:
-      low: 0.7
-      high: 0.8
+    drop1:
+      low: 0.1
+      high: 0.5
+    drop2:
+      low: 0.1
+      high: 0.5
+    r: 0.029838373711533493
+    alpha: 0.8269408367001678
+#    r:
+#      low: 0.01
+#      high: 0.2
+#    alpha:
+#      low: 0.7
+#      high: 0.8
   tinyimagenet_10:
     drop1:
       low: 0.1
