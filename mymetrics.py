@@ -71,6 +71,7 @@ class MyMetrics:
                 if len(list__idx_task) == 0:
                     acc_avg = None
                     btf = None
+                    fgt = None
                 else:
                     # 这个 weight数组可以用于后续的加权计算，比如计算加权平均准确率。
                     # 在这个例子中，第二个任务和第四个任务的测试样本数量将作为权重，
@@ -84,6 +85,19 @@ class MyMetrics:
                     acc_avg = np.average(list__acc, weights=weight).item()
                     metrics[f'acc__{name}'] = acc_avg
 
+                    # avg forget
+                    # axis=0 行方向的最大值，即取出每一列的最大值
+                    acc = self.nda_acc[0: list__idx_task[-1]+1, 0: list__idx_task[-1]+1]  # 取出所涉及的任务
+                    list__acc_max = np.where(~np.isnan(acc), acc, 0)    # 有Nan的地方设置0
+                    a = np.max(list__acc_max - list__acc, axis=0)
+                    fgt = np.sum(a)  # 找最大gap 的平均
+                    num_tasks = len(list__idx_task)
+                    if num_tasks == 1:
+                        fgt = 0
+                    else:
+                        fgt = fgt / (num_tasks - 1)
+                    # endif
+                    metrics[f'fgt__{name}'] = fgt
                     # forward transfer
                     pass
 
@@ -139,6 +153,7 @@ class MyMetrics:
         print(f'acc:\n{header}\n{mtx}')
         print({k: v for k, v in dict__idx_task__metrics[idx_task_latest].items() if k.startswith('acc')})
         print({k: v for k, v in dict__idx_task__metrics[idx_task_latest].items() if k.startswith('btf')})
+        print({k: v for k, v in dict__idx_task__metrics[idx_task_latest].items() if k.startswith('fgt')})
 
         return dict__idx_task__metrics, list__artifact
     # enddef

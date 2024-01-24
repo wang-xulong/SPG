@@ -19,9 +19,10 @@ from dataloader import get_shuffled_dataloder
 from mymetrics import MyMetrics
 from utils import BColors, myprint as print, suggest_float, suggest_int
 
-
 import matplotlib.pyplot as plt
 import wandb
+
+WANDB = True
 
 
 def instance_appr(trial: Trial, cfg: DictConfig,
@@ -47,13 +48,14 @@ def instance_appr(trial: Trial, cfg: DictConfig,
         'patience_max': cfg.patience_max,
         'backbone': cfg.backbone.name,
         'nhid': cfg.nhid,
-        }
+    }
 
     # 从配置路径cfg, 'appr', 'tuned', cfg.seq.name,以及变量 pnames[-1] 中获取想要的数值
     def fetch_param_float(*pnames: str) -> float:
         v = suggest_float(trial, cfg, 'appr', 'tuned', cfg.seq.name, pnames[-1])
 
         return v
+
     # enddef
 
     if cfg.appr.name.lower() == 'spg':
@@ -63,6 +65,7 @@ def instance_appr(trial: Trial, cfg: DictConfig,
             appr_args['r'] = fetch_param_float('r')
             appr_args['alpha'] = fetch_param_float('alpha')
             appr_args['lamb'] = appr_args['r'] * appr_args['alpha']
+            # appr_args['lamb'] = 0
         else:
             raise NotImplementedError
         # endif
@@ -213,13 +216,18 @@ def outer_objective(cfg: DictConfig, expid: str) -> Callable[[Trial], float]:
             # endfor
             # 提取最后一个任务的总体准确率，并将这个值赋值给变量 obj
             obj = metrics_final[num_tasks - 1]['acc__Overall']
-            wandb.log({"acc__Overall": obj, "btf__Overall": metrics_final[num_tasks - 1]['btf__Overall']})
+            if WANDB:
+                wandb.log({"acc__Overall": obj,
+                           "btf__Overall": metrics_final[num_tasks - 1]['btf__Overall'],
+                           "fgt__Overall": metrics_final[num_tasks - 1]['fgt__Overall']
+                           })
         # endwith
 
         print(f'Emptying CUDA cache...')
         torch.cuda.empty_cache()
 
         return obj
+
     # enddef
 
     return objective
@@ -263,16 +271,18 @@ def main(cfg: DictConfig):
     plt.savefig('plot_slice.png')
     optuna.visualization.matplotlib.plot_contour(study)
     plt.savefig('plot_contour.png')
-    optuna.visualization.matplotlib.plot_parallel_coordinate(study, params=['r', 'alpha'])
-    plt.savefig('plot_parallel_coordinate.png')
     optuna.visualization.matplotlib.plot_param_importances(study)
     plt.savefig('plot_param_importances.png')
+    optuna.visualization.matplotlib.plot_parallel_coordinate(study, params=list(study.best_params.keys()))
+    plt.savefig('plot_parallel_coordinate.png')
 
     plt.show()
 
 
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
-    wandb.init(project='C-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+    if WANDB:
+        wandb.init(project='C-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
-    wandb.finish()
+    if WANDB:
+        wandb.finish()
