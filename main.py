@@ -157,6 +157,7 @@ def outer_objective(cfg: DictConfig, expid: str) -> Callable[[Trial], float]:
                   f'******* trial params *******\n'
                   f'{trial.params}\n',
                   f'****************************', bcolor=BColors.OKBLUE)
+
             # 获取测试集
             list__dl_test = [dict__idx_task__dataloader[idx_task]['test'] for idx_task in range(num_tasks)]
             # 实例化mm，用于记录测试集的性能
@@ -212,6 +213,7 @@ def outer_objective(cfg: DictConfig, expid: str) -> Callable[[Trial], float]:
             # endfor
             # 提取最后一个任务的总体准确率，并将这个值赋值给变量 obj
             obj = metrics_final[num_tasks - 1]['acc__Overall']
+            wandb.log({"acc__Overall": obj, "btf__Overall": metrics_final[num_tasks - 1]['btf__Overall']})
         # endwith
 
         print(f'Emptying CUDA cache...')
@@ -261,7 +263,7 @@ def main(cfg: DictConfig):
     plt.savefig('plot_slice.png')
     optuna.visualization.matplotlib.plot_contour(study)
     plt.savefig('plot_contour.png')
-    optuna.visualization.matplotlib.plot_parallel_coordinate(study, params=['drop1', 'drop2'])
+    optuna.visualization.matplotlib.plot_parallel_coordinate(study, params=['r', 'alpha'])
     plt.savefig('plot_parallel_coordinate.png')
     optuna.visualization.matplotlib.plot_param_importances(study)
     plt.savefig('plot_param_importances.png')
@@ -271,6 +273,6 @@ def main(cfg: DictConfig):
 
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
-    wandb.init(project='cifar100_10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+    wandb.init(project='C-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
     wandb.finish()
