@@ -30,4 +30,4 @@ lr_factor: 3
 
 num_workers: 18
 pin_memory: True
-prefetch_factor: 64*2
+prefetch_factor: 64
