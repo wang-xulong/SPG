@@ -6,7 +6,7 @@
 #SBATCH --time=6-0:0:0
 #SBATCH --nodes=1
 #SBATCH --gpus-per-node=1
-#SBATCH --cpus-per-gpu=10
+#SBATCH --cpus-per-gpu=8
 #SBATCH --mail-user=xl.wang@sheffield.ac.uk
 
 # Load the conda module
