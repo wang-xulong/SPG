@@ -225,14 +225,11 @@ def _get_dataloaders(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
         # dataset -> dataloader
         for idx_task in range(num_tasks):
             dl_train = DataLoader(dict__idx_task__dataset[idx_task]['train'], batch_size=batch_size
-                                  , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory
-                                  , prefetch_factor=cfg.prefetch_factor)
+                                  , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory, prefetch_factor=64)
             dl_val = DataLoader(dict__idx_task__dataset[idx_task]['val'], batch_size=batch_size
-                                , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory
-                                , prefetch_factor=cfg.prefetch_factor)
-            dl_test = DataLoader(dict__idx_task__dataset[idx_task]['test'], batch_size=batch_size,
-                                 num_workers=cfg.num_workers, pin_memory=cfg.pin_memory
-                                 , prefetch_factor=cfg.prefetch_factor)
+                                , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory, prefetch_factor=64)
+            dl_test = DataLoader(dict__idx_task__dataset[idx_task]['test'], batch_size=batch_size
+                                 , num_workers=cfg.num_workers, pin_memory=cfg.pin_memory, prefetch_factor=64)
 
             assert len(dl_train.dataset) == num_train_per_class * list__num_classes[idx_task]
             assert len(dl_val.dataset) == num_val_per_class * list__num_classes[idx_task]

@@ -1,6 +1,6 @@
 # @package _global_
-seed_pt: 1
-#  low: 1
-#  high: 1000
-n_trials: 15
+seed_pt:
+  low: 1
+  high: 1000
+n_trials: 5
 psearch: false
