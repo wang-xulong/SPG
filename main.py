@@ -282,7 +282,7 @@ def main(cfg: DictConfig):
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
     if WANDB:
-        wandb.init(project='C-10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+        wandb.init(project='C-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
     if WANDB:
         wandb.finish()
