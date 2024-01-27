@@ -15,7 +15,7 @@ from optuna import Trial, visualization
 import approaches
 import utils
 from approaches.abst_appr import AbstractAppr
-from dataloader import get_shuffled_dataloder
+from dataloader import get_shuffled_dataloader
 from mymetrics import MyMetrics
 from utils import BColors, myprint as print, suggest_float, suggest_int
 
@@ -92,7 +92,7 @@ def load_dataloader(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
 
         print(f'Loaded from {filepath_pkl}', bcolor=BColors.OKBLUE)
     else:
-        dict__idx_task__dataloader = get_shuffled_dataloder(cfg)
+        dict__idx_task__dataloader = get_shuffled_dataloader(cfg)
         with open(filepath_pkl, 'wb') as f:
             pickle.dump(dict__idx_task__dataloader, f)
         # endwith
@@ -282,7 +282,7 @@ def main(cfg: DictConfig):
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
     if WANDB:
-        wandb.init(project='C-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+        wandb.init(project='C-10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
     if WANDB:
         wandb.finish()

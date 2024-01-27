@@ -19,7 +19,7 @@ from torchvision.transforms import InterpolationMode
 from utils import myprint as print
 
 
-def get_shuffled_dataloder(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
+def get_shuffled_dataloader(cfg: DictConfig) -> Dict[int, Dict[str, Any]]:
     r = 1
 
     dict__idx_task__dataloader = _get_dataloaders(cfg)

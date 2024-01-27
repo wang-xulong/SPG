@@ -50,7 +50,7 @@ class AbstractAppr:
         if 'r' in kwargs.keys():
             self.r = kwargs['r']
         else:
-            self.r = 0.1
+            self.r = 0.02
         if 'alpha' in kwargs.keys():
             self.alpha = kwargs['alpha']
         else:
