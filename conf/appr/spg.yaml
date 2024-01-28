@@ -7,14 +7,14 @@ tuned:
     r: 0.029838373711533493
     alpha: 0.8269408367001678
   cifar100_20:
-    drop1:
-      low: 0.1
-      high: 0.5
-    drop2:
-      low: 0.1
-      high: 0.5
-    r: 0.02
-    alpha: 0.80
+    drop1: 0.15870235632684523
+    drop2: 0.13693543790751914
+    r:
+      low: 0.01
+      high: 0.2
+    alpha:
+      low: 0.7
+      high: 0.85
   tinyimagenet_10:  # Got Best
     drop1: 0.18178089989260698
     drop2: 0.4512469745563782
