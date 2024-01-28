@@ -47,6 +47,7 @@ class Appr(AbstractAppr):
     def before_learning(self, idx_task: int, **kwargs) -> None:
         dl = kwargs['dl_train']
         # self.model.compute_importance_hessian(idx_task=idx_task, dl=dl)
+        self.model.compute_importance(idx_task=idx_task, dl=dl)
 
     def complete_learning(self, idx_task: int, **kwargs) -> None:
         """

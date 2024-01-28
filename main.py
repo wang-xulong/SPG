@@ -171,8 +171,9 @@ def outer_objective(cfg: DictConfig, expid: str) -> Callable[[Trial], float]:
                 # get 训练集和测试集
                 dl_train = dict__idx_task__dataloader[idx_task]['train']
                 dl_val = dict__idx_task__dataloader[idx_task]['val']
+
                 # 训练前执行相似权重检索
-                # appr.before_learning(idx_task=idx_task, dl_train=dl_train, dl_val=dl_val)
+                appr.before_learning(idx_task=idx_task, dl_train=dl_train, dl_val=dl_val)
                 # appr.执行训练
                 # 返回值是一个字典
                 results_train = appr.train(idx_task=idx_task, dl_train=dl_train, dl_val=dl_val)
@@ -282,7 +283,7 @@ def main(cfg: DictConfig):
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
     if WANDB:
-        wandb.init(project='T-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+        wandb.init(project='C-10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
     if WANDB:
         wandb.finish()
