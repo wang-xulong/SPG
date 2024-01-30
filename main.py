@@ -63,6 +63,9 @@ def instance_appr(trial: Trial, cfg: DictConfig,
             appr_args['drop1'] = fetch_param_float('drop1')
             appr_args['drop2'] = fetch_param_float('drop2')
             appr_args['lamb'] = 0
+        else:
+            raise NotImplementedError
+        # endif
     elif cfg.appr.name.lower() == 'gnr':
         if appr_args['backbone'] in ['alexnet']:
             appr_args['drop1'] = fetch_param_float('drop1')
@@ -73,13 +76,12 @@ def instance_appr(trial: Trial, cfg: DictConfig,
         else:
             raise NotImplementedError
         # endif
-        # 上面是给方法设置一堆对应的超参数
-        # 下面是实例化一个appr方法
-        appr = approaches.appr_spg.Appr(appr_args)
     else:
         raise NotImplementedError(cfg.appr.name)
     # endif
-
+    # 上面是给方法设置一堆对应的超参数
+    # 下面是实例化一个appr方法
+    appr = approaches.appr_spg.Appr(appr_args)
     return appr
 
 
