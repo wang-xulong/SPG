@@ -47,14 +47,11 @@ class AbstractAppr:
         self.epochs_max = epochs_max
         self.patience_max = patience_max
         self.lamb = lamb
+        # for GNR approach
         if 'r' in kwargs.keys():
             self.r = kwargs['r']
-        else:
-            self.r = 0.02
         if 'alpha' in kwargs.keys():
             self.alpha = kwargs['alpha']
-        else:
-            self.alpha = 0.8
 
         # misc
         self.criterion = nn.CrossEntropyLoss()
