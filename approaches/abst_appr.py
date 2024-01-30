@@ -50,8 +50,12 @@ class AbstractAppr:
         # for GNR approach
         if 'r' in kwargs.keys():
             self.r = kwargs['r']
+        else:
+            self.r = 0
         if 'alpha' in kwargs.keys():
             self.alpha = kwargs['alpha']
+        else:
+            self.alpha = 1
 
         # misc
         self.criterion = nn.CrossEntropyLoss()
@@ -188,7 +192,7 @@ class AbstractAppr:
             # optim
             optimizer.zero_grad()
             loss.backward()
-            self.gradient_norm(args, x=x, target=y)
+            # self.gradient_norm(args, x=x, target=y)
             self.modify_grads(args)
             optimizer.step()
         # endfor
