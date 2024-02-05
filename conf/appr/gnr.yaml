@@ -24,5 +24,9 @@ tuned:
     femnist_10:  # 4.Feb
       drop1: 0.4921793208978701
       drop2: 0.4847418191146906
-      r: 0.05
-      alpha: 0.8
+      r:
+        low: 0.01
+        high: 0.1
+      alpha:
+        low: 0.7
+        high: 0.85

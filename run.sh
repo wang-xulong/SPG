@@ -20,5 +20,5 @@ pip install -r requirements.txt
 
 cd /home/acq21xw/SPG
 
-python main.py appr=spg seq=cifar100_10 
+python main.py appr=spg seq=femnist_10
 
