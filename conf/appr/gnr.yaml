@@ -21,12 +21,12 @@ tuned:
       drop2: 0.4914210580839663
       r: 0.012464883387813356
       alpha: 0.8340935020356804
-    femnist_10:  # 4.Feb
-      drop1: 0.4921793208978701
-      drop2: 0.4847418191146906
-      r:
-        low: 0.01
-        high: 0.1
-      alpha:
-        low: 0.7
-        high: 0.85
+    femnist_10:  # 5.Feb
+      drop1:
+        low: 0.1
+        high: 0.5
+      drop2:
+        low: 0.1
+        high: 0.5
+      r: 0.01
+      alpha: 0.7
