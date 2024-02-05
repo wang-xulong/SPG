@@ -182,6 +182,8 @@ class ModelSPG(nn.Module):
                 loss = lossfunc(out, y)
                 # 对损失进行反向传播
                 loss.backward()
+
+                break  # 测试仅使用一个batch行不行？
             # endfor
             # 处理 SPG 模块
             # 遍历模型的所有命名模块。
@@ -210,6 +212,7 @@ class ModelSPG(nn.Module):
                     # endfor
 
                     module.register_grad(idx_task=idx_task, t=t, grads=grads)
+
                 # endif
             # endfor
         # endfor

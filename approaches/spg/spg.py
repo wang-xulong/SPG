@@ -2,7 +2,7 @@ from typing import *
 
 import torch
 from torch import Tensor, nn
-
+import numpy as np
 from utils import assert_type, myprint as print
 
 """
@@ -231,6 +231,8 @@ class SPG(nn.Module):
             if p.grad is None:
                 pass
             else:
+                # gamma = torch.from_numpy(np.where(a_max[n] > 0.01, 1, 0))  # 转化为硬掩码  4.Feb
+                # red=(1 - gamma).to(p.device)
                 red = (1 - a_max[n]).to(p.device)  # 论文 Eq(6)
                 p.grad.data *= red  # 注意，仅使用.data  数值计算，是不会被考虑到计算图中
 

@@ -1,0 +1,6 @@
+name: str
+
+tuned:
+    cifar100_10:
+      drop1: 0.5
+      drop2: 0.5

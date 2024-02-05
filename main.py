@@ -75,6 +75,13 @@ def instance_appr(trial: Trial, cfg: DictConfig,
             appr_args['lamb'] = appr_args['r'] * appr_args['alpha']
         else:
             raise NotImplementedError
+    elif cfg.appr.name.lower() == 'str':
+        if appr_args['backbone'] in ['alexnet']:
+            appr_args['drop1'] = fetch_param_float('drop1')
+            appr_args['drop2'] = fetch_param_float('drop2')
+            appr_args['lamb'] = 0
+        else:
+            raise NotImplementedError
         # endif
     else:
         raise NotImplementedError(cfg.appr.name)
@@ -289,7 +296,7 @@ def main(cfg: DictConfig):
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
     if WANDB:
-        wandb.init(project='T-20', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+        wandb.init(project='C-10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
     if WANDB:
         wandb.finish()
