@@ -195,8 +195,8 @@ class AbstractAppr:
             # optim
             optimizer.zero_grad()
             loss.backward()
-            # self.gradient_norm(args, x=x, target=y)
-            self.modify_grads(args)
+            self.gradient_norm(args, x=x, target=y)
+            # self.modify_grads(args)
             optimizer.step()
         # endfor
 
