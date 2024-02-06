@@ -56,7 +56,10 @@ class AbstractAppr:
             self.alpha = kwargs['alpha']
         else:
             self.alpha = 1
-
+        if 'scenario' in kwargs.keys():
+            self.scenario = kwargs['scenario']
+        else:
+            self.scenario = None
         # misc
         self.criterion = nn.CrossEntropyLoss()
         self.model = NotImplemented  # type: nn.Module
@@ -215,6 +218,9 @@ class AbstractAppr:
     # enddef
 
     def test(self, idx_task: int, dl_test: DataLoader) -> Dict[str, float]:
+        if self.scenario is not None:
+            self.infer_id()
+
         results_test = self._eval_common(idx_task, dl_test)
 
         results = {
@@ -225,6 +231,20 @@ class AbstractAppr:
         return results
 
     # enddef
+
+    def infer_id(self):
+        pass
+    # 获取要推断的数据
+
+    # 深拷贝前n个任务模型做测试
+
+    # 任务相似性计算
+
+    # 推断标签
+
+    # 统计正确率
+
+    # 返回推断的标签
 
     def _eval_common(self, idx_task: int, dl: DataLoader) -> Dict[str, float]:
         self.model.eval()

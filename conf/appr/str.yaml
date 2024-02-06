@@ -2,5 +2,15 @@ name: str
 
 tuned:
     cifar100_10:
-      drop1: 0.5
-      drop2: 0.5
+      drop1: 0.1
+      drop2: 0.1
+    cifar100_20:
+      drop1: 0.1
+      drop2: 0.1
+    tinyimagenet_10:
+      drop1:
+        low: 0.1
+        high: 0.5
+      drop2:
+        low: 0.1
+        high: 0.5

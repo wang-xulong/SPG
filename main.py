@@ -63,6 +63,7 @@ def instance_appr(trial: Trial, cfg: DictConfig,
             appr_args['drop1'] = fetch_param_float('drop1')
             appr_args['drop2'] = fetch_param_float('drop2')
             appr_args['lamb'] = 0
+            # appr_args['scenario'] = 'ci'
         else:
             raise NotImplementedError
         # endif
