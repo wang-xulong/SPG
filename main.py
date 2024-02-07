@@ -22,7 +22,7 @@ from utils import BColors, myprint as print, suggest_float, suggest_int
 import matplotlib.pyplot as plt
 import wandb
 
-WANDB = True
+WANDB = False
 
 
 def instance_appr(trial: Trial, cfg: DictConfig,
@@ -297,7 +297,7 @@ def main(cfg: DictConfig):
 if __name__ == '__main__':
     OmegaConf.register_new_resolver('now', lambda pattern: datetime.now().strftime(pattern))
     if WANDB:
-        wandb.init(project='FE-10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
+        wandb.init(project='T-10', name=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), save_code=True)
     main()
     if WANDB:
         wandb.finish()

@@ -8,9 +8,8 @@ tuned:
       drop1: 0.1
       drop2: 0.1
     tinyimagenet_10:
-      drop1:
-        low: 0.1
-        high: 0.5
-      drop2:
-        low: 0.1
-        high: 0.5
+      drop1: 0.15615477543809353
+      drop2: 0.17924059563395153
+    tinyimagenet_20:
+      drop1: 0.15615477543809353
+      drop2: 0.17924059563395153
