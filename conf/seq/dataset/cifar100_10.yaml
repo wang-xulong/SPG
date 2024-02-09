@@ -3,7 +3,7 @@ cifar100_10:
     - 3
     - 32
     - 32
-  num_tasks: 10
+  num_tasks: 1
   num_classes: 100
   num_train_per_class: 450
   num_val_per_class: 50
